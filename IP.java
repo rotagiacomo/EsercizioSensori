@@ -1,6 +1,6 @@
 public class IP {
     private int[] indirizzo;
-    private static int[] incrementoIP = {0,0,0,0};
+    private static int[] incrementoIP = {0,0,0,-1};
 
     private int[] assegnaIP(){
         for (int i = 3; i>=0; i--){
@@ -21,14 +21,28 @@ public class IP {
         indirizzo=assegnaIP();
     }
 
+    public int[] getIP(){
+        return indirizzo;
+    }
+
+    public boolean equals(IP indirizzoDaConfrontare){
+        for (int i = 0; i<indirizzo.length; i++){
+            if (indirizzo[i] != indirizzoDaConfrontare.indirizzo[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public String toString(){
-        String stringa = "";
+        String stringa = "IP[";
         for (int i = 0; i<indirizzo.length; i++){
             stringa += indirizzo[i];
             if(i < indirizzo.length-1){
                 stringa += ".";
             }
         }
+        stringa += "]";
         return stringa;
     }
 }

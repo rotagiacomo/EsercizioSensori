@@ -26,4 +26,40 @@ public class Data {
             this.anno = -1;
         }
     }
+
+    public int getGiorno() {
+        return giorno;
+    }
+
+    public int getMese() {
+        return mese;
+    }
+
+    public int getAnno() {
+        return anno;
+    }
+
+    public Data(){
+        giorno = 1;
+        mese = 1;
+        anno = 2025;
+    }
+
+    public Data(int giorno, int mese, int anno){
+        setGiorno(giorno);
+        setMese(mese);
+        setAnno(anno);
+    }
+
+    public Data(Data dataDaCopiare){
+        this(dataDaCopiare.giorno, dataDaCopiare.mese, dataDaCopiare.anno);
+    }
+
+    public boolean equals(Data dataDaConfrontare) {
+        return giorno == dataDaConfrontare.giorno && mese == dataDaConfrontare.mese && anno == dataDaConfrontare.anno;
+    }
+
+    public String toString(){
+        return "Data[" + giorno + "/" + mese + "/" + anno + "]";
+    }
 }

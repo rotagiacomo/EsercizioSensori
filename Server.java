@@ -30,12 +30,10 @@ public class Server {
     }
 
     public void rimuoviSensore(IP indirizzo){
-        for (int i = 0; i<size; i++){
-            if (sensoriRilevati[i].getIndirizzoIp().equals(indirizzo)){
-                scalaArrayUno(i);
-                size--;
-                return;
-            }
+        int indice = trovaIndice(indirizzo);
+        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getIndirizzoIp().equals(indirizzo)){
+            scalaArrayUno(indice);
+            size--;
         }
     }
 
@@ -44,6 +42,27 @@ public class Server {
             sensoriRilevati[i] = sensoriRilevati[i+1];
         }
         sensoriRilevati[size-1] = null;
+    }
+
+    public Sensore trovaSensore(IP indirizzo){
+        int indice = trovaIndice(indirizzo);
+        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getIndirizzoIp().equals(indirizzo)){
+            return sensoriRilevati[indice];
+        }else {
+            return null;
+        }
+    }
+
+    public Sensore[] sensoriInArea(Coordinate minime, Coordinate massime){
+        Sensore[] lista = new Sensore[size];
+        int a = 0;
+        for (int i = 0; i<size; i++){
+            if (sensoriRilevati[i].getCoordinate().isInArea(minime, massime)){
+                lista[a] = sensoriRilevati[i];
+                a++;
+            }
+        }
+        return lista;
     }
 
     public Server(){

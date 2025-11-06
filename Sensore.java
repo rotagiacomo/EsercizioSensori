@@ -73,4 +73,18 @@ public class Sensore {
     public String toString(){
         return "Sensore[" + indirizzoIp + ", Qualita' aria: " + qualitaAria + ", " + coordinate + ", Scadenza batteria: " + scadenzaBatteria + ", Aggiunta batteria: " + aggiuntaBatteria + "]";
     }
+
+    public static String toString(Sensore[] arr){
+        String stringa = "ArrSensore[";
+        for (int i = 0; i < arr.length; i++){
+            if (arr[i] != null){
+                stringa += arr[i].getIndirizzoIp();
+                if (i < arr.length -1){
+                    stringa += ", ";
+                }
+            }
+        }
+        stringa += "]";
+        return stringa;
+    }
 }

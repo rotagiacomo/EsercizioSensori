@@ -3,13 +3,14 @@ public class Main {
         Sensore a = new Sensore();
         Sensore b = new Sensore();
         Sensore c = new Sensore();
-        Server primo = new Server();
-        primo.aggiungiSensore(a);
-        primo.aggiungiSensore(b);
-        primo.aggiungiSensore(c);
-        System.out.println(primo);
-        primo.rimuoviSensore(b.getIndirizzoIp());
-        primo.rimuoviSensore(a.getIndirizzoIp());
-        System.out.println(primo);
+        Server server = new Server();
+        server.aggiungiSensore(a);
+        Sensore[] agg = new Sensore[5];
+        agg[0] = b;
+        agg[1] = c;
+        server.aggiungiSensore(agg);
+        System.out.println(server);
+        Sensore[] inArea = server.sensoriInArea(new Coordinate(10, 10), new Coordinate(10, 10));
+        System.out.println(Sensore.toString(inArea));
     }
 }

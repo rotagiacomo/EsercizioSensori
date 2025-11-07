@@ -1,18 +1,17 @@
 public class Server {
     private Sensore[] sensoriRilevati;
-    private static int size = 0;
+    private                  int size = 0;
 
     public void aggiungiSensore(Sensore sensore){
-        int indice = trovaIndice(sensore.getIndirizzoIp());
-        if(sensoriRilevati[indice] == null || !sensore.getIndirizzoIp().equals(sensoriRilevati[indice].getIndirizzoIp())) {
-            if (sensoriRilevati[indice] != null) {
-                for (int i = size; i > indice; i--) {
-                    sensoriRilevati[i] = sensoriRilevati[i - 1];
-                }
-            }
-            sensoriRilevati[indice] = sensore;
-            size++;
+        if (size == sensoriRilevati.length){
+            aumentaLunghezzaArr();
         }
+        int indice = trovaIndice(sensore.getCodiceUnivoco());
+        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getCodiceUnivoco() != sensore.getCodiceUnivoco()){
+            scalaArrayUno(indice);
+        }
+        sensoriRilevati[indice] = sensore;
+        size++;
     }
 
     public void aggiungiSensore(Sensore[] sensori){
@@ -21,17 +20,26 @@ public class Server {
         }
     }
 
-    private int trovaIndice(IP indirizzo){
+    private int trovaIndice(int codiceUnivoco){
         int i = 0;
-        while (i<size && sensoriRilevati[i].getIndirizzoIp().isSmaller(indirizzo)){
+        while (i<size && sensoriRilevati[i].getCodiceUnivoco() < codiceUnivoco){
             i++;
         }
         return i;
     }
 
-    public void rimuoviSensore(IP indirizzo){
-        int indice = trovaIndice(indirizzo);
-        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getIndirizzoIp().equals(indirizzo)){
+    private void aumentaLunghezzaArr(){
+        Sensore[] temp = new Sensore[size*2];
+        for (int i = 0; i<sensoriRilevati.length; i++){
+            temp[i] = sensoriRilevati[i];
+        }
+        sensoriRilevati = temp;
+        temp = null;
+    }
+
+    public void rimuoviSensore(int codiceUnivoco){
+        int indice = trovaIndice(codiceUnivoco);
+        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getCodiceUnivoco() == codiceUnivoco){
             scalaArrayUno(indice);
             size--;
         }
@@ -44,9 +52,9 @@ public class Server {
         sensoriRilevati[size-1] = null;
     }
 
-    public Sensore trovaSensore(IP indirizzo){
-        int indice = trovaIndice(indirizzo);
-        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getIndirizzoIp().equals(indirizzo)){
+    public Sensore trovaSensore(int codiceUnivoco){
+        int indice = trovaIndice(codiceUnivoco);
+        if (sensoriRilevati[indice] != null && sensoriRilevati[indice].getCodiceUnivoco() == codiceUnivoco){
             return sensoriRilevati[indice];
         }else {
             return null;
@@ -69,10 +77,6 @@ public class Server {
         sensoriRilevati = new Sensore[100];
     }
 
-    public Sensore[] getSensoriRilevati() {
-        return sensoriRilevati;
-    }
-
     public Server(int numeroSensori){
         if (numeroSensori > 0) {
             sensoriRilevati = new Sensore[numeroSensori];
@@ -82,7 +86,7 @@ public class Server {
     public String toString(){
         String stringa = "Server[";
         for (int i = 0; i<size; i++){
-            stringa += sensoriRilevati[i].getIndirizzoIp();
+            stringa += sensoriRilevati[i].getCodiceUnivoco() + " " + sensoriRilevati[i].getIndirizzoIp();
             if(i<size-1){
                 stringa += ", ";
             }

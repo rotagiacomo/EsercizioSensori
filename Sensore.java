@@ -1,5 +1,7 @@
 public class Sensore {
     private IP indirizzoIp;
+    private int codiceUnivoco;
+    private static int incrementoCodice;
     private double qualitaAria;
     private Coordinate coordinate;
     private Data scadenzaBatteria;
@@ -25,6 +27,10 @@ public class Sensore {
         aggiuntaBatteria = data;
     }
 
+    public int getCodiceUnivoco() {
+        return codiceUnivoco;
+    }
+
     public IP getIndirizzoIp(){
         return indirizzoIp;
     }
@@ -45,8 +51,9 @@ public class Sensore {
         return aggiuntaBatteria;
     }
 
-    public Sensore(){
-        indirizzoIp = new IP();
+    public Sensore(IP indirizzoIp){
+        this.indirizzoIp = indirizzoIp;
+        codiceUnivoco = incrementoCodice++;
         qualitaAria = 0;
         coordinate = new Coordinate();
         scadenzaBatteria = new Data();
@@ -54,24 +61,25 @@ public class Sensore {
         aggiuntaBatteria.setAnno(scadenzaBatteria.getAnno()-1);
     }
 
-    public Sensore(double qualitaAria, Coordinate coordinate, Data scadenzaBatteria, Data aggiuntaBatteria){
-        indirizzoIp = new IP();
-        setQualitaAria(qualitaAria);
+    public Sensore(IP indirizzoIp, Coordinate coordinate, Data scadenzaBatteria, Data aggiuntaBatteria){
+        this.indirizzoIp = indirizzoIp;
+        codiceUnivoco = incrementoCodice++;
+        setQualitaAria(0);
         setCoordinate(coordinate);
         setScadenzaBatteria(scadenzaBatteria);
         setAggiuntaBatteria(aggiuntaBatteria);
     }
 
     public Sensore(Sensore sensoreDaCopiare){
-        this(sensoreDaCopiare.qualitaAria, sensoreDaCopiare.coordinate, sensoreDaCopiare.scadenzaBatteria, sensoreDaCopiare.aggiuntaBatteria);
+        this(sensoreDaCopiare.indirizzoIp, sensoreDaCopiare.coordinate, sensoreDaCopiare.scadenzaBatteria, sensoreDaCopiare.aggiuntaBatteria);
     }
 
     public boolean equals(Sensore sensoreDaConfrontare){
-        return indirizzoIp.equals(sensoreDaConfrontare.indirizzoIp) && coordinate.equals(sensoreDaConfrontare.coordinate) && scadenzaBatteria.equals(sensoreDaConfrontare.scadenzaBatteria) && aggiuntaBatteria.equals(sensoreDaConfrontare.aggiuntaBatteria);
+        return coordinate.equals(sensoreDaConfrontare.coordinate);
     }
 
     public String toString(){
-        return "Sensore[" + indirizzoIp + ", Qualita' aria: " + qualitaAria + ", " + coordinate + ", Scadenza batteria: " + scadenzaBatteria + ", Aggiunta batteria: " + aggiuntaBatteria + "]";
+        return "Sensore[Codice: " + codiceUnivoco + indirizzoIp + ", Qualita' aria: " + qualitaAria + ", " + coordinate + ", Scadenza batteria: " + scadenzaBatteria + ", Aggiunta batteria: " + aggiuntaBatteria + "]";
     }
 
     public static String toString(Sensore[] arr){
